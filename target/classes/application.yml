@@ -1,11 +1,10 @@
-# Spring db properties
+ # Spring db properties
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      uri: mongodb://localhost/test
-  
+    uri: mongodb+src://dylan:dylan@cluster0.mb8zbcw.mongodb.net/CONSULTA_YA?retryWrites=true&w=majority	
 # HTTP Server
 server:
   port: 8081
+  servlet:
+     contextPath: /login
