@@ -1,6 +1,7 @@
-c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\conectasalud\service\ClinicaService.java
-c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\conectasalud\repository\ClinicaRepository.java
-c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\conectasalud\model\LoginInput.java
-c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\conectasalud\controller\LoginController.java
-c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\conectasalud\model\Clinica.java
-c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\conectasalud\ConectaSaludApplication.java
+c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\consultaya\controller\LoginController.java
+c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\consultaya\model\Usuario.java
+c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\consultaya\repository\LoginRepository.java
+c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\consultaya\service\impl\LoginServiceImp.java
+c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\consultaya\service\LoginService.java
+c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\consultaya\LoginApplication.java
+c:\Users\dylan\OneDrive\Escritorio\Consulta ya\Backend\RestApiRegistroLogin\src\main\java\com\mx\consultaya\repository\impl\LoginRepositoryImp.java

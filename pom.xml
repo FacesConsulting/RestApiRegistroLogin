@@ -8,9 +8,9 @@
 		<version>3.0.5</version>
 		<relativePath />
 	</parent>
-	<artifactId>conectasalud-clinica</artifactId>
+	<artifactId>consulta-ya-login</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>conecta-salud-api-clinica</name>
+	<name>consulta-ya-api-login</name>
 	<description>Api rest de conecta salud para clinicas</description>
 	<properties>
 		<java.version>17</java.version>
