@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LoginApplication<conectasalud-clinica>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mx.consultaya.LoginApplication",
+            "projectName": "conectasalud-clinica",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-LoginApplication<consulta-ya-login>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mx.consultaya.LoginApplication",
+            "projectName": "consulta-ya-login",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
