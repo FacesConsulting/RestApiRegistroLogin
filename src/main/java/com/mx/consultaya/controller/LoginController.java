@@ -22,7 +22,7 @@ public class LoginController {
 	
 	private LoginService loginService;
 	
-	@PostMapping(path = "registar")
+	@PostMapping(path = "registrar")
 	public ResponseEntity<Usuario> saveUser(@RequestBody @Valid Usuario user){
 		log.info("guarda usuario {}",user.toString());
 		return ResponseEntity.ok(loginService.saveUsuario(user));
