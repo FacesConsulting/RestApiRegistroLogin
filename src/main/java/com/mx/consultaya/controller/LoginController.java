@@ -36,6 +36,7 @@ public class LoginController {
 		Usuario usuario = loginService.loggearUsuario(user);
 		log.info(usuario != null ? "El usuario existe este es su email: " + usuario.getEmail() : null);
 		if (usuario == null) {
+			log.info(" usuario nulo");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
         } else {
             return ResponseEntity.ok(usuario);
