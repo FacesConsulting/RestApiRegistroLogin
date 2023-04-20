@@ -22,25 +22,19 @@ public class LoginController {
 	
 	private LoginService loginService;
 	
-	/**
-	 * @param user
-	 * @return
-	 */
-	@PostMapping(path = "register")
+	@PostMapping(path = "registar")
 	public ResponseEntity<Usuario> saveUser(@RequestBody @Valid Usuario user){
 		log.info("guarda usuario {}",user.toString());
 		return ResponseEntity.ok(loginService.saveUsuario(user));
 	}
-	/**
-     * @param user
-     * @return
-     */
-    @PostMapping(path = "login")
+
+	
+	@PostMapping(path = "login")
 	public ResponseEntity<Usuario> loggearUser(@RequestBody @Valid Usuario user){
 		log.info("loggeando usuario");
-		log.info(user.getEmail()+ user.getPassword());
+		log.info(user.toString());
 		Usuario usuario = loginService.loggearUsuario(user);
-		log.info(usuario!= null ? user.getEmail(): null);
+		log.info(usuario != null ? usuario.getEmail() : null);
 		if (usuario == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
