@@ -29,4 +29,11 @@ public class LoginServiceImp  implements LoginService{
 		log.info("Guarda usuario: {}",user.toString());
 		return loginRepository.saveLogin(user);
 	}
+
+	@Override
+	public Usuario loggearUsuario(Usuario user){
+		return loginRepository.login(user.getEmail(), user.getPassword());
+	}
+
+
 }

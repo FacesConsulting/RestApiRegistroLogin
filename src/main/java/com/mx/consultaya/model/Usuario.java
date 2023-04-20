@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import nonapi.io.github.classgraph.json.Id;
 /**
  * The Class LoginInput
@@ -15,9 +14,9 @@ import nonapi.io.github.classgraph.json.Id;
 @Setter
 @Getter
 @AllArgsConstructor
-@ToString
 @Document("USUARIO")
 public class Usuario {
+	
 	@Id
 	private String id;
 	
