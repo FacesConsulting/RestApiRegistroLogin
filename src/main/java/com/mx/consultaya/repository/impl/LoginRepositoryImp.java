@@ -1,9 +1,8 @@
 package com.mx.consultaya.repository.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -16,33 +15,22 @@ import lombok.AllArgsConstructor;
 @Repository
 @AllArgsConstructor
 public class LoginRepositoryImp implements LoginRepository {
-	private MongoOperations mongoOperations;
+	private MongoTemplate mongoTemplate;
 
 	@Override
 	public List<Usuario> findAll() {
-		return this.mongoOperations.find(new Query(), Usuario.class);
+		return this.mongoTemplate.find(new Query(), Usuario.class);
 	}
 
 	@Override
 	public Usuario login(String email, String password) {
-		Query orQuery = new Query();
-		Criteria orCriteria = new Criteria();
-		List<Criteria> orExpression = new ArrayList<>();
-		Criteria emailCriteria = new Criteria();
-		emailCriteria.and("email");
-		emailCriteria.is(email);
-		Criteria passwordCriteria = new Criteria();
-		passwordCriteria.and("password");
-		passwordCriteria.is(password);
-		orExpression.add(emailCriteria);
-		orExpression.add(passwordCriteria);
-		orQuery.addCriteria(orCriteria.orOperator(orExpression.toArray(new Criteria[orExpression.size()])));
-
-		return mongoOperations.find(orQuery, Usuario.class).stream().findAny().get();
+		Query query = new Query();
+        query.addCriteria(Criteria.where("email").is(email).and("password").is(password));
+        return mongoTemplate.findOne(query, Usuario.class);
 	}
 
 	@Override
 	public Usuario saveLogin(Usuario loginInput) {
-		return this.mongoOperations.save(loginInput);
+		return this.mongoTemplate.save(loginInput);
 	}
 }
