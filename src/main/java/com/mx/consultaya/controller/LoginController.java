@@ -29,13 +29,13 @@ public class LoginController {
 	}
 	
 	@PostMapping(path = "login")
-	public ResponseEntity<Usuario> loggearUser(@RequestBody @Valid Usuario user){
+	public ResponseEntity<Object> loggearUser(@RequestBody @Valid Usuario user){
 		log.info("loggeando usuario");
-		log.info(user.toString());
+		log.info(user.getEmail()+ " " + user.getPassword());
 		Usuario usuario = loginService.loggearUsuario(user);
-		log.info(usuario != null ? usuario.getEmail() : null);
+		log.info(usuario != null ? "El usuario existe este es su email: " + usuario.getEmail() : null);
 		if (usuario == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
         } else {
             return ResponseEntity.ok(usuario);
         }
