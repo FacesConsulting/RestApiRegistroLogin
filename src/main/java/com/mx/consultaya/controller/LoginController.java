@@ -17,21 +17,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/auth")
 public class LoginController {
 	
 	private LoginService loginService;
 	
-	@PostMapping(path = "guardar")
+	@PostMapping(path = "registar")
 	public ResponseEntity<Usuario> saveUser(@RequestBody @Valid Usuario user){
 		log.info("guarda usuario {}",user.toString());
 		return ResponseEntity.ok(loginService.saveUsuario(user));
 	}
 	
-	@PostMapping(path = "loggear")
+	@PostMapping(path = "login")
 	public ResponseEntity<Usuario> loggearUser(@RequestBody @Valid Usuario user){
 		log.info("loggeando usuario");
+		log.info(user.toString());
 		Usuario usuario = loginService.loggearUsuario(user);
+		log.info(usuario != null ? usuario.getEmail() : null);
 		if (usuario == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } else {
