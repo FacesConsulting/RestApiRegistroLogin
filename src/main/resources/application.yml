@@ -2,7 +2,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://dylan:dylan@cluster0.mb8zbcw.mongodb.net/CONSULTA_YA?retryWrites=true&w=majority
+      uri: mongodb+srv://monse:monse@cluster0.mb8zbcw.mongodb.net/CONSULTA_YA?retryWrites=true&w=majority
 # HTTP Server
 server:
   port: 8081
