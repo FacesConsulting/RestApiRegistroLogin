@@ -4,6 +4,7 @@ spring:
     mongodb:
       uri: mongodb+srv://dylan:dylan@cluster0.mb8zbcw.mongodb.net/CONSULTA_YA?retryWrites=true&w=majority
       
+      
 # HTTP Server
 server:
   port: 8081
