@@ -11,21 +11,18 @@ public class Utils {
 	 * @param data
 	 * @return
 	 */
-	public static String desencritarData(String cipherText, String key) throws Exception {
-		byte[] ivBytes = new byte[16];
-        IvParameterSpec ivParams = new IvParameterSpec(ivBytes);
+	public static String decryptData(String encryptedData, String key, String iv) throws Exception {
+        byte[] encryptedBytes = Base64.getDecoder().decode(encryptedData);
+        byte[] encryptedKey = Base64.getDecoder().decode(key);
+        byte[] encryptedIv = Base64.getDecoder().decode(iv);
 
-        byte[] keyBytes = key.getBytes("UTF-8");
-        SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "AES");
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(encryptedKey, "AES");
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(encryptedIv);
 
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParams);
-
-        byte[] cipherTextBytes = Base64.getDecoder().decode(cipherText.getBytes("UTF-8"));
-        byte[] decryptedBytes = cipher.doFinal(cipherTextBytes);
-
-        return new String(decryptedBytes);	
-        //import org.jasypt.util.text.BasicTextEncryptor;
-	}
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
+        byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+        return new String(decryptedBytes);
+    }	
 }
 

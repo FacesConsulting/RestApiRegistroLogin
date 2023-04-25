@@ -56,7 +56,7 @@ public class LoginController {
 
 		try {
 			
-			String dataDecrypt = decryptData(data, key, iv);
+			String dataDecrypt = Utils.decryptData(data, key, iv);
 
 			Gson g = new Gson();
 			
@@ -78,18 +78,4 @@ public class LoginController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
 		}	
 	}
-
-	public static String decryptData(String encryptedData, String key, String iv) throws Exception {
-        byte[] encryptedBytes = Base64.getDecoder().decode(encryptedData);
-        byte[] encryptedKey = Base64.getDecoder().decode(key);
-        byte[] encryptedIv = Base64.getDecoder().decode(iv);
-
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-        SecretKeySpec secretKeySpec = new SecretKeySpec(encryptedKey, "AES");
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(encryptedIv);
-
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
-        byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
-        return new String(decryptedBytes);
-    }	
 }
