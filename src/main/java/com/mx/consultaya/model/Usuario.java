@@ -28,7 +28,9 @@ import nonapi.io.github.classgraph.json.Id;
 @Getter
 @AllArgsConstructor
 @Document("Usuario")
-public class Usuario  {
+
+public class Usuario {
+
 	
 	@Id
 	private String id;

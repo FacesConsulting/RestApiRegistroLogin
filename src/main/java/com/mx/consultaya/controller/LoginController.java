@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.mx.consultaya.model.EncryptedData;
 import com.mx.consultaya.model.Usuario;
 import com.mx.consultaya.service.LoginService;
 import com.mx.consultaya.utils.Utils;
 
 import jakarta.validation.Valid;
+import java.nio.charset.StandardCharsets;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,56 +33,61 @@ public class LoginController {
 	
 	private LoginService loginService;
 	
-	@PostMapping(path = "registrar")
+
+	@PostMapping(path = "signUp")
+
 	public ResponseEntity<Usuario> saveUser(@RequestBody @Valid Usuario user){
 		log.info("guarda usuario {}",user.toString());
 		return ResponseEntity.ok(loginService.saveUsuario(user));
 	}
 
 	
-	@PostMapping(path = "ingresar")
-	public ResponseEntity<Object> loggearUser(@RequestBody @Valid String data)throws Exception{
 
+	@PostMapping(path = "signIn")
+	public ResponseEntity<Object> singIn(@RequestBody @Valid EncryptedData encryptedData){
 		log.info("loggeando usuario");
-		log.info("data: "+data);
-		String des1 = Utils.desencritarData("JiXKp/pTKGTg5csVALDawlX9fiZ470S1EA36W82Qvhszj/bCVn4nhY+dORPhSYws","12345678901234567890123456789012");
-		log.info("desencriptado 1 "+ des1);
-		String des = Utils.desencritarData(data,"12345678901234567890123456789012");
-		log.info("desencriptado front"+ des);
-		
-		// log.info(user.getEmail()+ " " + user.getPassword());
-		// Usuario usuario = loginService.loggearUsuario(user);
-		// log.info(usuario != null ? "El usuario existe este es su email: " + usuario.getEmail() : null);
-		// if (usuario == null) {
-		// 	log.info(" usuario nulo");
-        // } else {
-		// 	return ResponseEntity.ok(usuario);
-        // }	
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
+		String data = encryptedData.getData();
+		String key = encryptedData.getKey();
+		String iv = encryptedData.getIv();
+
+		log.info("Data: " + data);
+		log.info("Key: " + key);
+		log.info("iv: " + iv);
+
+		try {
+			
+			String dataDecrypt = decryptData(data, key, iv);
+
+			Gson g = new Gson();
+			
+			Usuario user = g.fromJson(dataDecrypt, Usuario.class);
+
+			log.info(user.getEmail()+ " " + user.getPassword());
+
+			Usuario usuario = loginService.loggearUsuario(user);
+
+			log.info(usuario != null ? "El usuario existe este es su email: " + usuario.getEmail() : null);
+
+			if (usuario == null) {
+			    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
+			} else {
+			    return ResponseEntity.ok(usuario);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
+		}	
 	}
-	@PostMapping(path ="encriptar")
-    public ResponseEntity<Boolean> encriptar(String data,String key,String iv) throws Exception{
-        byte[] decodedKey = Base64.getDecoder().decode(key);
-        byte[] decodedIv = Base64.getDecoder().decode(iv);
-        byte[] decodedData = Base64.getDecoder().decode(data);
 
-        SecretKeySpec keySpec = new SecretKeySpec(decodedKey, "AES");
-        IvParameterSpec ivSpec = new IvParameterSpec(decodedIv);
-
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
-
-        byte[] decryptedData = cipher.doFinal(decodedData);
-
-        log.info("data:{}",new String(decryptedData));
-        return ResponseEntity.ok(true);
-    }
-
-    public static String decryptData(String encryptedData, String key, String iv) throws Exception {
+	public static String decryptData(String encryptedData, String key, String iv) throws Exception {
         byte[] encryptedBytes = Base64.getDecoder().decode(encryptedData);
+        byte[] encryptedKey = Base64.getDecoder().decode(key);
+        byte[] encryptedIv = Base64.getDecoder().decode(iv);
+
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes("UTF-8"));
+        SecretKeySpec secretKeySpec = new SecretKeySpec(encryptedKey, "AES");
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(encryptedIv);
+
         cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
         return new String(decryptedBytes);
