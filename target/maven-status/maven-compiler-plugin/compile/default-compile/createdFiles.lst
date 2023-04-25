@@ -1,6 +1,10 @@
+com\mx\consultaya\model\Usuario$UsuarioBuilder.class
 com\mx\consultaya\repository\LoginRepository.class
 com\mx\consultaya\controller\LoginController.class
+com\mx\consultaya\model\Role.class
+com\mx\consultaya\config\AuthenticationJwtFilter.class
 com\mx\consultaya\LoginApplication.class
+com\mx\consultaya\utils\Utils.class
 com\mx\consultaya\model\Usuario.class
 com\mx\consultaya\service\impl\LoginServiceImp.class
 com\mx\consultaya\repository\impl\LoginRepositoryImp.class
