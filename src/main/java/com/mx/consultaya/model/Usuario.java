@@ -19,8 +19,11 @@ public class Usuario {
 	
 	@Id
 	private String id;
-	
-	private String email;
 
+	private String nombre;
+	private String apellidos;
+	private String email;
 	private String password;
+	private Boolean terminosCondiciones;
+	private Boolean politicaPrivacidad;
 }
