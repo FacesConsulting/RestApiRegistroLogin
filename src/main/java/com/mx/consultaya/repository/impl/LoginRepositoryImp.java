@@ -16,19 +16,22 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LoginRepositoryImp implements LoginRepository {
 	private MongoTemplate mongoTemplate;
-
+	private LoginRepository loginRepository;
 	@Override
 	public List<Usuario> findAll() {
 		return this.mongoTemplate.find(new Query(), Usuario.class);
 	}
-
+	
 	@Override
 	public Usuario login(String email, String password) {
 		Query query = new Query();
         query.addCriteria(Criteria.where("email").is(email).and("password").is(password));
         return mongoTemplate.findOne(query, Usuario.class);
 	}
-
+	@Override
+	public Usuario findByUsername(String nombre){
+		return loginRepository.findByUsername(nombre);
+	}
 	@Override
 	public Usuario saveLogin(Usuario loginInput) {
 		return this.mongoTemplate.save(loginInput);

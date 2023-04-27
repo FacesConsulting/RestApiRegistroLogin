@@ -34,6 +34,9 @@ public class LoginServiceImp  implements LoginService{
 	public Usuario loggearUsuario(Usuario user){
 		return loginRepository.login(user.getEmail(), user.getPassword());
 	}
-
+	@Override
+	public Usuario findByUsername(String nombre){
+		return loginRepository.findByUsername(nombre);
+	}
 
 }

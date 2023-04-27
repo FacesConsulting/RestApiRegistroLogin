@@ -7,6 +7,8 @@ public interface LoginService {
 	public List<Usuario> findAll();
 
 	public Usuario saveUsuario(Usuario user);
+	
+	public Usuario findByUsername(String nombre);
 
 	public Usuario loggearUsuario(Usuario user);
 }
