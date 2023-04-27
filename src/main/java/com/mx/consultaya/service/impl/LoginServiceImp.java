@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mx.consultaya.model.Usuario;
 import com.mx.consultaya.repository.LoginRepository;
+import com.mx.consultaya.repository.UserRepository;
 import com.mx.consultaya.service.LoginService;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class LoginServiceImp  implements LoginService{
 	private LoginRepository loginRepository;
-
+	private UserRepository userRepository;
 	@Override
 	public List<Usuario> findAll() {
 		log.info("Obteniendo todos los usuarios");
@@ -34,6 +35,8 @@ public class LoginServiceImp  implements LoginService{
 	public Usuario loggearUsuario(Usuario user){
 		return loginRepository.login(user.getEmail(), user.getPassword());
 	}
-
-
+	@Override
+	public boolean findUserByEmail(String email){
+		return true;
+	}
 }

@@ -14,13 +14,14 @@ import lombok.AllArgsConstructor;
 
 @Repository
 @AllArgsConstructor
-public class LoginRepositoryImp implements LoginRepository {
+public class LoginRepositoryImp  implements LoginRepository {
 	private MongoTemplate mongoTemplate;
 
 	@Override
 	public List<Usuario> findAll() {
 		return this.mongoTemplate.find(new Query(), Usuario.class);
 	}
+	
 
 	@Override
 	public Usuario login(String email, String password) {
@@ -33,4 +34,5 @@ public class LoginRepositoryImp implements LoginRepository {
 	public Usuario saveLogin(Usuario loginInput) {
 		return this.mongoTemplate.save(loginInput);
 	}
+
 }

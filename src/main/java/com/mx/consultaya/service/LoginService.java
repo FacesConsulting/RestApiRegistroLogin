@@ -9,4 +9,6 @@ public interface LoginService {
 	public Usuario saveUsuario(Usuario user);
 
 	public Usuario loggearUsuario(Usuario user);
+
+	public boolean findUserByEmail(String email);
 }
