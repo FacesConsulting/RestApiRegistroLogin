@@ -10,3 +10,5 @@ server:
   port: 8081
   servlet:
      contextPath: /login
+
+jwt.secret=mySecretKey

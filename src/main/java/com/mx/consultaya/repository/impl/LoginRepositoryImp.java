@@ -29,7 +29,7 @@ public class LoginRepositoryImp implements LoginRepository {
         return mongoTemplate.findOne(query, Usuario.class);
 	}
 	@Override
-	public Usuario findByUsername(String nombre){
+	public boolean findByUsername(String nombre){
 		return loginRepository.findByUsername(nombre);
 	}
 	@Override

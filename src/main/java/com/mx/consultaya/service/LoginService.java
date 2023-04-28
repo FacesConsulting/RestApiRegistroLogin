@@ -8,7 +8,7 @@ public interface LoginService {
 
 	public Usuario saveUsuario(Usuario user);
 	
-	public Usuario findByUsername(String nombre);
+	public boolean findByUsername(String nombre);
 
 	public Usuario loggearUsuario(Usuario user);
 }
