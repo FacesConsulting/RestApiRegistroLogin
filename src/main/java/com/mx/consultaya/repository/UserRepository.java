@@ -7,5 +7,9 @@ import com.mx.consultaya.model.Usuario;
 
 public interface UserRepository extends MongoRepository<Usuario,String> {
     
-    Optional<Usuario> findbyEmail(String email);
+    Optional<Usuario> findByUsername(String nombre);
+
+    Boolean existsByUsername(String nombre);
+
+    Boolean existsByEmail(String email);
 }

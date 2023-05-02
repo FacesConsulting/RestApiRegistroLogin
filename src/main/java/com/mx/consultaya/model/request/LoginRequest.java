@@ -1,5 +1,6 @@
-package com.mx.consultaya.model;
+package com.mx.consultaya.model.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +8,10 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class Login {
+public class LoginRequest {
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String password;
 }

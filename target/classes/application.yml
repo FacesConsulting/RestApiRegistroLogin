@@ -11,4 +11,3 @@ server:
   servlet:
      contextPath: /login
 
-jwt.secret=mySecretKey
