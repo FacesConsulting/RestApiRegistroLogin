@@ -1,4 +1,5 @@
 com\mx\consultaya\repository\LoginRepository.class
+com\mx\consultaya\repository\UserRepository.class
 com\mx\consultaya\model\Role.class
 com\mx\consultaya\LoginApplication.class
 com\mx\consultaya\repository\impl\LoginRepositoryImp.class
