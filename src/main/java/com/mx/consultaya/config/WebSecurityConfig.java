@@ -22,7 +22,7 @@ import com.mx.consultaya.service.UserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class WebSecurityConfig {

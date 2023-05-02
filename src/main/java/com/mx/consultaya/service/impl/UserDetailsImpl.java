@@ -58,6 +58,11 @@ public class UserDetailsImpl implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
+
+    public String getEmail(){
+        return email;
+    }
+
     @Override
     public String getPassword() {
         return password;    
@@ -65,7 +70,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername () {
-        return email;
+        return nombre;
     }
 
     @Override
