@@ -1,8 +1,10 @@
 package com.mx.consultaya.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Encrypted;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,11 +29,11 @@ public class Usuario {
 
 	@NotBlank
 	@Size(max = 20)
-	private String nombre;
+	private String firstname;
 
 	@NotBlank
 	@Size(max = 20)
-	private String apellidos;
+	private String lastname;
 
 	@NotBlank
 	@Size(max = 50)
@@ -42,9 +44,10 @@ public class Usuario {
 	@Size(min =8, max = 20)
 	private String password;
 	//md5
-	private Boolean terminosCondiciones;
+	private Boolean atys;
 
-	private Boolean politicaPrivacidad;
+	private Boolean apdp;
 	
-	//private Role role;
+	@DBRef
+  	private Set<Role> roles = new HashSet<>();
 }
