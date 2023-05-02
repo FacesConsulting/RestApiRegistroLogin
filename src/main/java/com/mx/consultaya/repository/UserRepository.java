@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.mx.consultaya.model.Usuario;
 
 //@Repository
+@EnableMongoRepositories
 public interface UserRepository extends MongoRepository<Usuario,String> {
     
     Optional<Usuario> findByUsername(String nombre);
