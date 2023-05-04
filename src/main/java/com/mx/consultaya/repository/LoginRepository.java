@@ -10,6 +10,8 @@ import java.util.*;
 public interface LoginRepository {
 
 	public List<Usuario> findAll();
+	
 	public Usuario login(String email, String password); 
-	public Usuario saveLogin(Usuario user);
+
+	public boolean existUserByEmail(String email);
 }

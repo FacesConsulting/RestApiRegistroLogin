@@ -1,8 +1,12 @@
 package com.mx.consultaya.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.backoff.FixedBackOff;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.mx.consultaya.model.EncryptedData;
 import com.mx.consultaya.model.Usuario;
-import com.mx.consultaya.service.LoginService;
+import com.mx.consultaya.service.UserService;
 import com.mx.consultaya.utils.Utils;
 
 import jakarta.validation.Valid;
@@ -24,8 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @RequestMapping("/auth")
 public class RegistroController {
-	private LoginService loginService;
-	
+
+	private UserService  userService;
+
 	/**
 	 * @param user
 	 * @return
@@ -50,20 +55,30 @@ public class RegistroController {
 			log.info("user data {} ", user.getEmail());
 		
 		try {
-			Usuario usuario = loginService.saveUsuario(user);
-			if(loginService.findUserByEmail(usuario.getEmail())){
-				return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+			if(userService.findUserByEmail(user.getEmail())){
+				log.info("user email {} ", user.getEmail());
 				
+				return new ResponseEntity<>("El email proporcionado ya esta dado de alta en la aplicación",HttpStatus.ALREADY_REPORTED);
 			}
-			if (usuario.getFirstname() == null) {
-				log.info("null");
-				return new ResponseEntity<>(HttpStatusCode.valueOf(406));
-			} else {
-				log.info("guarda usuario {}", user.toString());
-				return ResponseEntity.ok(loginService.saveUsuario(user));
+			else{
+				log.info("Enviar correo: ");
+				BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+				String encryptedPwd = bcrypt.encode(user.getPassword());
+				user.setPassword(encryptedPwd);
+				final Usuario userF = new Usuario(
+							 user.getFirstname(),  
+							 user.getLastname(),
+							 user.getEmail(),
+							 user.getPassword(),
+							 user.getTerminos(),
+							 user.getPoliticas());
+				log.info("guarda usuario {}", userF.toString());
+
+				return ResponseEntity.ok(userService.saveUsuario(user));
 			}
+			
 		} catch (Exception e) {
-			log.info("exception");
+			log.info("exception\n" +  e.getMessage());
 			return new ResponseEntity<>(HttpStatusCode.valueOf(406));
 		}
 	}

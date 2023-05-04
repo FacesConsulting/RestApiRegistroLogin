@@ -44,10 +44,20 @@ public class Usuario {
 	@Size(min =8, max = 20)
 	private String password;
 	//md5
-	private Boolean atys;
+	private Boolean terminos;
 
-	private Boolean apdp;
+	private Boolean politicas;
 	
+	public Usuario(String firstname, String lastname, String email, String password, Boolean terminos,
+			Boolean politicas) {
+				this.firstname = firstname;
+				this.lastname = lastname;
+				this.email = email;
+				this.password = password;
+				this.terminos = terminos;
+				this.politicas = politicas;
+	}
+
 	@DBRef
   	private Set<Role> roles = new HashSet<>();
 }

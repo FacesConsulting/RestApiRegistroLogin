@@ -9,5 +9,5 @@ import com.mx.consultaya.model.ERole;
 import com.mx.consultaya.model.Role;
 @Repository
 public interface RoleRepository extends MongoRepository<Role,String> {
-    Optional<Role> findByName(ERole namERole);
+    Optional<Role> findByNamERole(ERole namERole);
 }

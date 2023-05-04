@@ -26,18 +26,12 @@ public class LoginServiceImp  implements LoginService{
 	}
 
 	@Override
-	public Usuario saveUsuario(Usuario user) {
-		log.info("Guarda usuario: {}",user.toString());
-		return loginRepository.saveLogin(user);
-	}
-
-	@Override
 	public Usuario loggearUsuario(Usuario user){
 		return loginRepository.login(user.getEmail(), user.getPassword());
 	}
 	@Override
 	public boolean findUserByEmail(String email){
-		return true;
+		return loginRepository.existUserByEmail(email);
 	}
 	
 

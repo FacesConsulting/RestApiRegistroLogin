@@ -30,9 +30,12 @@ public class LoginRepositoryImp  implements LoginRepository {
         return mongoTemplate.findOne(query, Usuario.class);
 	}
 
+
 	@Override
-	public Usuario saveLogin(Usuario loginInput) {
-		return this.mongoTemplate.save(loginInput);
-	}
+	public boolean existUserByEmail(String email){
+		Query query = new Query();
+        query.addCriteria(Criteria.where("email").is(email));
+        return mongoTemplate.exists(query, Usuario.class);
+	}	
 
 }
