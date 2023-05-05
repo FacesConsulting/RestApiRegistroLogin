@@ -1,9 +1,6 @@
 package com.mx.consultaya.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import nonapi.io.github.classgraph.json.Id;
+
 /**
  * The Class LoginInput
  * @author 
@@ -31,25 +28,27 @@ public class Usuario {
 
 	@NotBlank
 	@Size(max = 20)
-	private String firstname;
+	private String nombre;
 
 	@NotBlank
 	@Size(max = 20)
-	private String lastname;
+	private String apellidos;
 
 	@NotBlank
 	@Size(max = 50)
 	@Email
-	private String email;
+	private String correoElectronico;
 
 	@NotNull
 	@Size(min =8, max = 20)
 	private String password;
-
+	@NotNull
 	private Boolean terminos;
-
+	@NotNull
 	private Boolean politicas;
 	
-	@DBRef
-  	private Set<Role> roles = new HashSet<>();
+	//@DBRef(db="Roles")
+  	private String rol;
+
+
 }

@@ -20,7 +20,7 @@ public class LoginRepositoryImp  implements LoginRepository {
 	@Override
     public Usuario findByEmail(String email) {
 		Query query = new Query();
-        query.addCriteria(Criteria.where("email").is(email));
+        query.addCriteria(Criteria.where("correoElectronico").is(email.toLowerCase()));
         return mongoTemplate.findOne(query, Usuario.class);
     }
 	
@@ -32,14 +32,14 @@ public class LoginRepositoryImp  implements LoginRepository {
 	@Override
 	public Usuario login(String email, String password) {
 		Query query = new Query();
-        query.addCriteria(Criteria.where("email").is(email));
+        query.addCriteria(Criteria.where("correoElectronico").is(email));
         return mongoTemplate.findOne(query, Usuario.class);
 	}
 
 	@Override
 	public boolean existUserByEmail(String email){
 		Query query = new Query();
-        query.addCriteria(Criteria.where("email").is(email));
+        query.addCriteria(Criteria.where("correoElectronico").is(email));
         return mongoTemplate.exists(query, Usuario.class);
 	}	
 

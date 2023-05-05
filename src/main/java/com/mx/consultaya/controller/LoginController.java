@@ -42,15 +42,15 @@ public class LoginController {
 			Gson g = new Gson();
 			
 			Usuario user = g.fromJson(dataDecrypt, Usuario.class);
-			log.info(user.getEmail()+ " " + user.getPassword());
-			Usuario us = loginService.loggearUsuario(user.getEmail(),user.getPassword());
+			log.info(user.getCorreoElectronico()+ " + " + user.getPassword());
+			Usuario us = loginService.loggearUsuario(user.getCorreoElectronico().toLowerCase(),user.getPassword());
 			log.info("pass {}", us.getPassword());
+			
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();  
 			boolean isPasswordMatches = bcrypt.matches(user.getPassword(),us.getPassword() );
-			log.info("bool {}",isPasswordMatches);
+			log.info("correct password {}",isPasswordMatches);
 			if (isPasswordMatches) { // correct password
-				log.info("loggeado");
-				return ResponseEntity.status(HttpStatus.OK).body("{\"message\": \"loggeado\"}");
+				return ResponseEntity.status(HttpStatus.OK).body(us);
 			} else {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
 			}

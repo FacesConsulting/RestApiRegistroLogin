@@ -14,20 +14,23 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 @AllArgsConstructor
-public class UserServiceImp implements UserService{
-    
+public class UserServiceImp implements UserService {
+
     private UserRepository userRepository;
 
     @Override
-	public Usuario saveUsuario(Usuario user) {
+    public Usuario saveUsuario(Usuario user) {
         String encryptedPwd = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
-		user.setPassword(encryptedPwd);
-		log.info("Guarda usuario: {}",user.toString());
-		return userRepository.saveUsuario(user);
-	}
+        user.setPassword(encryptedPwd);
+        user.setRol("Paciente");
+
+        log.info("Guarda usuario: {}", user.toString());
+        return userRepository.saveUsuario(user);
+    }
 
     @Override
     public boolean findUserByEmail(String email) {
-        return userRepository.existsByEmail(email);
+        return userRepository.findByEmail(email);
+
     }
 }

@@ -22,17 +22,10 @@ public class UserRepositoryImp implements UserRepository{
     }
 
     @Override
-    public Boolean existsByEmail(String email){
+    public Boolean findByEmail(String email){
         Query query = new Query();
-        query.addCriteria(Criteria.where("email").is(email));
+        query.addCriteria(Criteria.where("correoElectronico").is(email));
         return mongoTemplate.exists(query, Usuario.class);
     }
-
-    @Override
-    public Usuario findByEmail(String email) {
-      return this.mongoTemplate.findOne(new Query(), Usuario.class, email);
-        //return this.mongoTemplate.find(new Query(), Usuario.class);
-    }
-
 
 }

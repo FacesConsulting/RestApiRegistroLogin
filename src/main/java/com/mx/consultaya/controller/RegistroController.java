@@ -1,14 +1,12 @@
 package com.mx.consultaya.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.google.gson.Gson;
 import com.mx.consultaya.model.EncryptedData;
 import com.mx.consultaya.model.Usuario;
@@ -48,23 +46,23 @@ public class RegistroController {
 			Gson g = new Gson();
 			
 			Usuario user = g.fromJson(dataDecrypt, Usuario.class);
-			log.info("user data {} ", user.getEmail());
+			log.info("user data {} ", user.getCorreoElectronico().toLowerCase());
 		
 		try {
-			if(userService.findUserByEmail(user.getEmail())){
-				log.info("user email {} ", user.getEmail());
-				
-				return new ResponseEntity<>("El email proporcionado ya esta dado de alta en la aplicación",HttpStatus.ALREADY_REPORTED);
+			log.info("existe correo" + userService.findUserByEmail(user.getCorreoElectronico().toLowerCase()));
+			if(userService.findUserByEmail(user.getCorreoElectronico().toLowerCase())){
+				log.info("user email {} ", user.getCorreoElectronico());
+				return new ResponseEntity<>("El correo electrónico proporcionado ya está dado de alta",HttpStatus.ALREADY_REPORTED);
 			}
 			else{
 				log.info("Enviar correo: ");
 				log.info("guarda usuario {}", user.toString());
 				userService.saveUsuario(user);
-				return new ResponseEntity<>("Usuario creado exitosamente",HttpStatus.CREATED);
+				return new ResponseEntity<>("Registro exitoso. Te llegará un correo electrónico para la verificación de tu cuenta ",HttpStatus.CREATED);
 			}
 		} catch (Exception e) {
 			log.info("exception\n" +  e.getMessage());
-			return new ResponseEntity<>(HttpStatusCode.valueOf(406));
+			return new ResponseEntity<>("ocurrio un error inesperado",HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 
