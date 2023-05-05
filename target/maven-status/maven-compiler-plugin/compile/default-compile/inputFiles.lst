@@ -3,11 +3,17 @@ C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\m
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\LoginApplication.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\model\Login.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\model\Role.java
+C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\model\ERole.java
+C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\service\WebSecurityConfig.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\controller\LoginController.java
+C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\repository\RoleRepository.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\repository\impl\LoginRepositoryImp.java
+C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\service\UserService.java
+C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\repository\impl\UserRepositoryImp.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\service\impl\LoginServiceImp.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\utils\Utils.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\controller\RegistroController.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\repository\LoginRepository.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\repository\UserRepository.java
+C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\service\impl\UserServiceImp.java
 C:\Users\Rose Mary\Desktop\restApiLogin\RestApiRegistroLogin\src\main\java\com\mx\consultaya\service\LoginService.java

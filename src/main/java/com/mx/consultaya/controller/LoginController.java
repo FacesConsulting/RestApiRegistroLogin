@@ -1,5 +1,5 @@
 package com.mx.consultaya.controller;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,21 +42,21 @@ public class LoginController {
 			Gson g = new Gson();
 			
 			Usuario user = g.fromJson(dataDecrypt, Usuario.class);
-
 			log.info(user.getEmail()+ " " + user.getPassword());
-
-			Usuario usuario = loginService.loggearUsuario(user);
-
-			log.info(usuario != null ? "El usuario existe este es su email: " + usuario.getEmail() : null);
-
-			if (usuario == null) {
-			    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
+			Usuario us = loginService.loggearUsuario(user.getEmail(),user.getPassword());
+			log.info("pass {}", us.getPassword());
+			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();  
+			boolean isPasswordMatches = bcrypt.matches(user.getPassword(),us.getPassword() );
+			log.info("bool {}",isPasswordMatches);
+			if (isPasswordMatches) { // correct password
+				log.info("loggeado");
+				return ResponseEntity.status(HttpStatus.OK).body("{\"message\": \"loggeado\"}");
 			} else {
-			    return ResponseEntity.ok(usuario);
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Excepcion\"}");
 		}	
 	}
 }

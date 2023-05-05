@@ -1,7 +1,6 @@
 package com.mx.consultaya.service.impl;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,13 +25,19 @@ public class LoginServiceImp  implements LoginService{
 	}
 
 	@Override
-	public Usuario loggearUsuario(Usuario user){
-		return loginRepository.login(user.getEmail(), user.getPassword());
+	public Usuario loggearUsuario(String email,String password){
+		
+		return loginRepository.login(email,password );
 	}
+	
 	@Override
-	public boolean findUserByEmail(String email){
+	public boolean existUserByEmail(String email){
 		return loginRepository.existUserByEmail(email);
 	}
+	@Override
+    public Usuario findByEmail(String email) {
+      return loginRepository.findByEmail(email);
+    }
 	
 
 }

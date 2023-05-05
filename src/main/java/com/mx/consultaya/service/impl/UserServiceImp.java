@@ -1,5 +1,6 @@
 package com.mx.consultaya.service.impl;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +15,15 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @AllArgsConstructor
 public class UserServiceImp implements UserService{
+    
     private UserRepository userRepository;
 
     @Override
 	public Usuario saveUsuario(Usuario user) {
+        String encryptedPwd = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+		user.setPassword(encryptedPwd);
 		log.info("Guarda usuario: {}",user.toString());
-		return userRepository.saveLogin(user);
+		return userRepository.saveUsuario(user);
 	}
 
     @Override

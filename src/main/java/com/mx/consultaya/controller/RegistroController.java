@@ -1,12 +1,8 @@
 package com.mx.consultaya.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.backoff.FixedBackOff;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,21 +58,10 @@ public class RegistroController {
 			}
 			else{
 				log.info("Enviar correo: ");
-				BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-				String encryptedPwd = bcrypt.encode(user.getPassword());
-				user.setPassword(encryptedPwd);
-				final Usuario userF = new Usuario(
-							 user.getFirstname(),  
-							 user.getLastname(),
-							 user.getEmail(),
-							 user.getPassword(),
-							 user.getTerminos(),
-							 user.getPoliticas());
-				log.info("guarda usuario {}", userF.toString());
-
-				return ResponseEntity.ok(userService.saveUsuario(user));
+				log.info("guarda usuario {}", user.toString());
+				userService.saveUsuario(user);
+				return new ResponseEntity<>("Usuario creado exitosamente",HttpStatus.CREATED);
 			}
-			
 		} catch (Exception e) {
 			log.info("exception\n" +  e.getMessage());
 			return new ResponseEntity<>(HttpStatusCode.valueOf(406));

@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import nonapi.io.github.classgraph.json.Id;
 /**
  * The Class LoginInput
@@ -21,6 +22,7 @@ import nonapi.io.github.classgraph.json.Id;
 @Setter
 @Getter
 @AllArgsConstructor
+@ToString
 @Document("Usuario")
 public class Usuario {
 	
@@ -43,21 +45,11 @@ public class Usuario {
 	@NotNull
 	@Size(min =8, max = 20)
 	private String password;
-	//md5
+
 	private Boolean terminos;
 
 	private Boolean politicas;
 	
-	public Usuario(String firstname, String lastname, String email, String password, Boolean terminos,
-			Boolean politicas) {
-				this.firstname = firstname;
-				this.lastname = lastname;
-				this.email = email;
-				this.password = password;
-				this.terminos = terminos;
-				this.politicas = politicas;
-	}
-
 	@DBRef
   	private Set<Role> roles = new HashSet<>();
 }

@@ -6,7 +6,9 @@ public interface LoginService {
 	
 	public List<Usuario> findAll();
 	
-	public Usuario loggearUsuario(Usuario user);
+	public Usuario loggearUsuario(String email,String password);
 
-	public boolean findUserByEmail(String email);
+	public boolean existUserByEmail(String email);
+
+    public Usuario findByEmail(String email);
 }

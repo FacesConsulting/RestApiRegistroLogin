@@ -3,7 +3,9 @@ import com.mx.consultaya.model.Usuario;
 
 public interface UserRepository{
 
-    Usuario saveLogin(Usuario usuario);
+    Usuario findByEmail(String email);
+
+    Usuario saveUsuario(Usuario usuario);
   
     Boolean existsByEmail(String email);
 

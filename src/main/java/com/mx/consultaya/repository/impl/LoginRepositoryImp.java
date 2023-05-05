@@ -18,18 +18,23 @@ public class LoginRepositoryImp  implements LoginRepository {
 	private MongoTemplate mongoTemplate;
 
 	@Override
+    public Usuario findByEmail(String email) {
+		Query query = new Query();
+        query.addCriteria(Criteria.where("email").is(email));
+        return mongoTemplate.findOne(query, Usuario.class);
+    }
+	
+	@Override
 	public List<Usuario> findAll() {
 		return this.mongoTemplate.find(new Query(), Usuario.class);
 	}
 	
-
 	@Override
 	public Usuario login(String email, String password) {
 		Query query = new Query();
-        query.addCriteria(Criteria.where("email").is(email).and("password").is(password));
+        query.addCriteria(Criteria.where("email").is(email));
         return mongoTemplate.findOne(query, Usuario.class);
 	}
-
 
 	@Override
 	public boolean existUserByEmail(String email){
