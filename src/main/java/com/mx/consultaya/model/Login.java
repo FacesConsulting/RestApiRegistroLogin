@@ -11,4 +11,5 @@ public class Login {
     
     private String email;
     private String password;
+//    private Boolean enabled;
 }

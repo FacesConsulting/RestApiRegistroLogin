@@ -46,6 +46,8 @@ public class Usuario {
 	private Boolean terminos;
 	@NotNull
 	private Boolean politicas;
+	@NotNull
+	private Boolean verificado;
 	
 	//@DBRef(db="Roles")
   	private String rol;

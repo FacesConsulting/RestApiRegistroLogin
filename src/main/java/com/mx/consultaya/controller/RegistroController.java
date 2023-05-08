@@ -46,11 +46,11 @@ public class RegistroController {
 			Gson g = new Gson();
 			
 			Usuario user = g.fromJson(dataDecrypt, Usuario.class);
-			log.info("user data {} ", user.getCorreoElectronico().toLowerCase());
+			log.info("user data {} ", user.getCorreoElectronico());
 		
 		try {
-			log.info("existe correo" + userService.findUserByEmail(user.getCorreoElectronico().toLowerCase()));
-			if(userService.findUserByEmail(user.getCorreoElectronico().toLowerCase())){
+			log.info("existe correo" + userService.findUserByEmail(user.getCorreoElectronico()));
+			if(userService.findUserByEmail(user.getCorreoElectronico())){
 				log.info("user email {} ", user.getCorreoElectronico());
 				return new ResponseEntity<>("El correo electrónico proporcionado ya está dado de alta",HttpStatus.ALREADY_REPORTED);
 			}

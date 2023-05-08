@@ -1,6 +1,7 @@
 package com.mx.consultaya.controller;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,19 +45,24 @@ public class LoginController {
 			Usuario user = g.fromJson(dataDecrypt, Usuario.class);
 			log.info(user.getCorreoElectronico()+ " + " + user.getPassword());
 			Usuario us = loginService.loggearUsuario(user.getCorreoElectronico().toLowerCase(),user.getPassword());
-			log.info("pass {}", us.getPassword());
 			
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();  
 			boolean isPasswordMatches = bcrypt.matches(user.getPassword(),us.getPassword() );
 			log.info("correct password {}",isPasswordMatches);
+			log.info("es verificado {}", us.getVerificado());
 			if (isPasswordMatches) { // correct password
-				return ResponseEntity.status(HttpStatus.OK).body(us);
+				if( Boolean.TRUE.equals(us.getVerificado())){
+
+					return ResponseEntity.status(HttpStatus.OK).body(us);
+				}else{
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Usuario no verificado.\"}");
+				}
 			} else {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Excepcion\"}");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Ocurrio un proble inseperado, intente nuevamente más tarde.\"}");
 		}	
 	}
 }

@@ -23,7 +23,7 @@ public class UserServiceImp implements UserService {
         String encryptedPwd = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
         user.setPassword(encryptedPwd);
         user.setRol("Paciente");
-
+        user.setVerificado(false);
         log.info("Guarda usuario: {}", user.toString());
         return userRepository.saveUsuario(user);
     }
