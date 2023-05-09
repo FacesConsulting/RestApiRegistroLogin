@@ -1,7 +1,7 @@
 package com.mx.consultaya.controller;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,11 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @RequestMapping("/auth")
 public class LoginController {
-	
+
 	private LoginService loginService;
-	
+
 	@PostMapping(path = "signIn")
-	public ResponseEntity<Object> singIn(@RequestBody @Valid EncryptedData encryptedData){
+	public ResponseEntity<Object> singIn(@RequestBody @Valid EncryptedData encryptedData) {
 		log.info("loggeando usuario");
 		String data = encryptedData.getData();
 		String key = encryptedData.getKey();
@@ -37,32 +37,40 @@ public class LoginController {
 		log.info("iv: " + iv);
 
 		try {
-			
+
 			String dataDecrypt = Utils.decryptData(data, key, iv);
 
 			Gson g = new Gson();
-			
+
 			Usuario user = g.fromJson(dataDecrypt, Usuario.class);
-			log.info(user.getCorreoElectronico()+ " + " + user.getPassword());
-			Usuario us = loginService.loggearUsuario(user.getCorreoElectronico().toLowerCase(),user.getPassword());
 			
-			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();  
-			boolean isPasswordMatches = bcrypt.matches(user.getPassword(),us.getPassword() );
-			log.info("correct password {}",isPasswordMatches);
-			log.info("es verificado {}", us.getVerificado());
+			Usuario us = loginService.loggearUsuario(user.getCorreoElectronico().toLowerCase(), user.getPassword());
+			
+			if(us == null){
+				log.info("Usuario no existente");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"Usuario no existente\"}");
+			}
+			
+			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+			boolean isPasswordMatches = bcrypt.matches(user.getPassword(), us.getPassword());
+
 			if (isPasswordMatches) { // correct password
-				if( Boolean.TRUE.equals(us.getVerificado())){
+				if (Boolean.TRUE.equals(us.getVerificado())) {
 
 					return ResponseEntity.status(HttpStatus.OK).body(us);
-				}else{
-					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Usuario no verificado.\"}");
+				} else {
+					log.info("Usuario no verificado");
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+							.body("{\"message\": \"Usuario no verificado.\"}");
 				}
 			} else {
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Credenciales invalidas\"}");
+				log.info("Credenciales incorrectas");
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\": \"Credenciales invalidas\"}");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"Ocurrio un proble inseperado, intente nuevamente más tarde.\"}");
-		}	
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("{\"message\": \"Ocurrio un problema inseperado, intente nuevamente más tarde.\"}");
+		}
 	}
 }

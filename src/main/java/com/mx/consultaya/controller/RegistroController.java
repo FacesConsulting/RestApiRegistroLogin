@@ -32,7 +32,7 @@ public class RegistroController {
 	 */
 	@CrossOrigin(origins = "*")
 	@PostMapping(path = "signUp")
-	public ResponseEntity<?> saveUser(@RequestBody @Valid EncryptedData encryptedData) throws Exception {
+	public ResponseEntity<String> saveUser(@RequestBody @Valid EncryptedData encryptedData) throws Exception {
 		log.info("registrando usuario");
 		String data = encryptedData.getData();
 		String key = encryptedData.getKey();
