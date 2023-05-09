@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "RandomString",
+            "request": "launch",
+            "mainClass": "com.mx.consultaya.utils.RandomString",
+            "projectName": "consulta-ya-login"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-LoginApplication<conectasalud-clinica>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

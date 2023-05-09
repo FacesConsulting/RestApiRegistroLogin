@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/auth")
 public class RegistroController {
 
-	private UserService  userService;
+	private UserService userService;
 
 	/**
 	 * @param user
@@ -42,6 +42,7 @@ public class RegistroController {
 		log.info("Key: " + key);
 		log.info("iv: " + iv);
 		String dataDecrypt = Utils.decryptData(data, key, iv);
+<<<<<<< HEAD
 			log.info("dataDecrypt {}",dataDecrypt);
 			Gson g = new Gson();
 			
@@ -51,18 +52,38 @@ public class RegistroController {
 		try {
 			log.info("existe correo" + userService.findUserByEmail(user.getCorreoElectronico()));
 			if(userService.findUserByEmail(user.getCorreoElectronico())){
+=======
+		log.info("dataDecrypt {}", dataDecrypt);
+		Gson g = new Gson();
+
+		Usuario user = g.fromJson(dataDecrypt, Usuario.class);
+		log.info("user data {} ", user.getCorreoElectronico().toLowerCase());
+
+		try {
+			log.info("existe correo" + userService.findUserByEmail(user.getCorreoElectronico().toLowerCase()));
+			if (userService.findUserByEmail(user.getCorreoElectronico().toLowerCase())) {
+>>>>>>> b201956fa179d5fb4ebdac17940d4933e7fc9d77
 				log.info("user email {} ", user.getCorreoElectronico());
-				return new ResponseEntity<>("El correo electrónico proporcionado ya está dado de alta",HttpStatus.ALREADY_REPORTED);
-			}
-			else{
+				return new ResponseEntity<>("El correo electrónico proporcionado ya está dado de alta",
+						HttpStatus.ALREADY_REPORTED);
+			} else {
 				log.info("Enviar correo: ");
 				log.info("guarda usuario {}", user.toString());
 				userService.saveUsuario(user);
-				return new ResponseEntity<>("Registro exitoso. Te llegará un correo electrónico para la verificación de tu cuenta ",HttpStatus.CREATED);
+				log.info(user.getCodigoVerificacion());
+				try {
+					userService.enviarCorreoVerificacion(user);
+					return new ResponseEntity<>(
+							"Registro exitoso. Te llegará un correo electrónico para la verificación de tu cuenta ",
+							HttpStatus.CREATED);
+				} catch (Exception e) {
+					log.info(e.getMessage());
+					return new ResponseEntity<>("No se pudo validar su email", HttpStatus.NOT_ACCEPTABLE);
+				}
 			}
 		} catch (Exception e) {
-			log.info("exception\n" +  e.getMessage());
-			return new ResponseEntity<>("ocurrio un error inesperado",HttpStatus.NOT_ACCEPTABLE);
+			log.info("exception\n" + e.getMessage());
+			return new ResponseEntity<>("ocurrio un error inesperado", HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 
