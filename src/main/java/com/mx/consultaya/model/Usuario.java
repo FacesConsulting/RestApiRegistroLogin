@@ -1,7 +1,12 @@
 package com.mx.consultaya.model;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -47,6 +52,16 @@ public class Usuario {
 	@NotNull
 	private Boolean politicas;
 	
+	@NotNull
+	private Boolean verificado;
+
+	@NotNull
+	private String codigoVerificacion;
+
+	// @Field("creadoEn")
+	// @Indexed(expireAfterSeconds = 30)
+	private Date creadoEn;
+
 	//@DBRef(db="Roles")
   	private String rol;
 

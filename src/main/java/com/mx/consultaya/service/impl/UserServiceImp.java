@@ -1,5 +1,9 @@
 package com.mx.consultaya.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mx.consultaya.model.Usuario;
 import com.mx.consultaya.repository.UserRepository;
 import com.mx.consultaya.service.UserService;
+import com.mx.consultaya.utils.RandomString;
+import com.mx.consultaya.utils.Utils;
+
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +31,11 @@ public class UserServiceImp implements UserService {
         String encryptedPwd = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
         user.setPassword(encryptedPwd);
         user.setRol("Paciente");
+        String randomCode = Utils.verifyToken(user);
+
+        user.setCodigoVerificacion(randomCode);
+        user.setVerificado(false);
+        user.setCreadoEn(new Date());
 
         log.info("Guarda usuario: {}", user.toString());
         return userRepository.saveUsuario(user);
@@ -32,5 +45,15 @@ public class UserServiceImp implements UserService {
     public boolean findUserByEmail(String email) {
         return userRepository.findByEmail(email);
 
+    }
+
+    @Override
+    public boolean isVerified() {
+        return userRepository.isVerified();
+    }
+
+    @Override
+    public void enviarCorreoVerificacion(Usuario user) throws UnsupportedEncodingException, MessagingException {
+        userRepository.enviarCorreoVerificacion(user);
     }
 }
