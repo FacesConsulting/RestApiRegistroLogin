@@ -11,7 +11,7 @@ public interface UserRepository{
   
     Boolean findByEmail(String email);
 
-    boolean isVerified();
+    Boolean actualizarVerificacion(String email);
 
     void enviarCorreoVerificacion(Usuario user) throws UnsupportedEncodingException, MessagingException;
 

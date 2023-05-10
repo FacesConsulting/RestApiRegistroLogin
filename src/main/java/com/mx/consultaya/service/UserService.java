@@ -14,6 +14,6 @@ public interface UserService {
 
     public void enviarCorreoVerificacion(Usuario user) throws UnsupportedEncodingException, MessagingException;
 
-    public boolean isVerified();
+    public Boolean actualizarVerificacion(String email);
     
 }

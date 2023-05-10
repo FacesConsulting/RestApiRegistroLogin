@@ -7,10 +7,11 @@ import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
 import com.mx.consultaya.model.JWTGenerator;
 import com.mx.consultaya.model.Usuario;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 public class Utils {
     /**
      * @param data
@@ -31,15 +32,14 @@ public class Utils {
 
     public static String verifyToken(Usuario user) {
         try {
+
+            log.info("usuario {}",user);
             JWTGenerator jwt = new JWTGenerator();
             Map<String, String> mapa = new HashMap<>();
-            mapa.put("id", user.getId());
             mapa.put("nombre", user.getNombre());
             mapa.put("apellidos", user.getApellidos());
             mapa.put("correoElectronico", user.getCorreoElectronico());
-
             return jwt.generateJWT(mapa);
-
         } catch (Exception e) {
             return null;
         }

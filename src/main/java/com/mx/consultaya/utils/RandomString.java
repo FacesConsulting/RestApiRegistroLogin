@@ -15,14 +15,4 @@ public class RandomString {
 
         return sb.toString();
     }
-
-    // public static void main(String[] args) {
-
-    //     // Get the size n
-    //     int n = 64;
-
-    //     // Get and display the alphanumeric string
-    //     System.out.println(RandomString
-    //             .getAlphaNumericString(n));
-    // }
 }

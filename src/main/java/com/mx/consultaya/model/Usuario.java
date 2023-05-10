@@ -3,9 +3,7 @@ package com.mx.consultaya.model;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -47,13 +45,13 @@ public class Usuario {
 	@NotNull
 	@Size(min =8, max = 20)
 	private String password;
+
 	@NotNull
 	private Boolean terminos;
+
 	@NotNull
 	private Boolean politicas;
-	@NotNull
-	private Boolean verificado;
-	
+
 	@NotNull
 	private Boolean verificado;
 
