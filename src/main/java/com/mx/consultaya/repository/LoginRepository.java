@@ -8,8 +8,11 @@ import java.util.*;
 
 @Repository
 public interface LoginRepository {
-
+	public Usuario findByEmail(String email);
+	
 	public List<Usuario> findAll();
+	
 	public Usuario login(String email, String password); 
-	public Usuario saveLogin(Usuario user);
+
+	public boolean existUserByEmail(String email);
 }

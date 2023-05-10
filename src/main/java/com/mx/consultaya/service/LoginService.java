@@ -5,8 +5,10 @@ import com.mx.consultaya.model.Usuario;
 public interface LoginService {
 	
 	public List<Usuario> findAll();
+	
+	public Usuario loggearUsuario(String email,String password);
 
-	public Usuario saveUsuario(Usuario user);
+	public boolean existUserByEmail(String email);
 
-	public Usuario loggearUsuario(Usuario user);
+    public Usuario findByEmail(String email);
 }

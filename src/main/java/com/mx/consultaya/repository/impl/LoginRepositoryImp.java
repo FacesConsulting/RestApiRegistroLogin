@@ -16,6 +16,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LoginRepositoryImp implements LoginRepository {
 	private MongoTemplate mongoTemplate;
+	private static final String CORREO_ELECTRONICO = "correoElectronico";
+
+	@Override
+	public Usuario findByEmail(String email) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where(CORREO_ELECTRONICO).is(email.toLowerCase()));
+		return mongoTemplate.findOne(query, Usuario.class);
+	}
 
 	@Override
 	public List<Usuario> findAll() {
@@ -25,12 +33,15 @@ public class LoginRepositoryImp implements LoginRepository {
 	@Override
 	public Usuario login(String email, String password) {
 		Query query = new Query();
-        query.addCriteria(Criteria.where("email").is(email).and("password").is(password));
-        return mongoTemplate.findOne(query, Usuario.class);
+		query.addCriteria(Criteria.where(CORREO_ELECTRONICO).is(email));
+		return mongoTemplate.findOne(query, Usuario.class);
 	}
 
 	@Override
-	public Usuario saveLogin(Usuario loginInput) {
-		return this.mongoTemplate.save(loginInput);
+	public boolean existUserByEmail(String email) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where(CORREO_ELECTRONICO).is(email));
+		return mongoTemplate.exists(query, Usuario.class);
 	}
+
 }

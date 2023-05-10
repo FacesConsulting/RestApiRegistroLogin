@@ -1,12 +1,12 @@
 package com.mx.consultaya.service.impl;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mx.consultaya.model.Usuario;
 import com.mx.consultaya.repository.LoginRepository;
+
 import com.mx.consultaya.service.LoginService;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class LoginServiceImp  implements LoginService{
 	private LoginRepository loginRepository;
-
+	
 	@Override
 	public List<Usuario> findAll() {
 		log.info("Obteniendo todos los usuarios");
@@ -25,15 +25,19 @@ public class LoginServiceImp  implements LoginService{
 	}
 
 	@Override
-	public Usuario saveUsuario(Usuario user) {
-		log.info("Guarda usuario: {}",user.toString());
-		return loginRepository.saveLogin(user);
+	public Usuario loggearUsuario(String email,String password){
+		
+		return loginRepository.login(email,password );
 	}
-
+	
 	@Override
-	public Usuario loggearUsuario(Usuario user){
-		return loginRepository.login(user.getEmail(), user.getPassword());
+	public boolean existUserByEmail(String email){
+		return loginRepository.existUserByEmail(email);
 	}
-
+	@Override
+    public Usuario findByEmail(String email) {
+      return loginRepository.findByEmail(email);
+    }
+	
 
 }
