@@ -16,7 +16,8 @@ import lombok.ToString;
 
 /**
  * The Class LoginInput
- * @author 
+ * 
+ * @author
  *
  */
 @Setter
@@ -25,7 +26,7 @@ import lombok.ToString;
 @ToString
 @Document("Usuario")
 public class Usuario {
-	
+
 	@Id
 	private String id;
 
@@ -43,7 +44,7 @@ public class Usuario {
 	private String correoElectronico;
 
 	@NotNull
-	@Size(min =8, max = 20)
+	@Size(min = 8, max = 20)
 	private String password;
 
 	@NotNull
@@ -57,13 +58,7 @@ public class Usuario {
 
 	@NotNull
 	private String codigoVerificacion;
-
-	// @Field("creadoEn")
-	// @Indexed(expireAfterSeconds = 30)
 	private Date creadoEn;
-
-	//@DBRef(db="Roles")
-  	private String rol;
-
+	private String rol;
 
 }
