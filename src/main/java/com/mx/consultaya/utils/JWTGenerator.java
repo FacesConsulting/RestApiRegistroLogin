@@ -1,4 +1,4 @@
-package com.mx.consultaya.model;
+package com.mx.consultaya.utils;
 
 import java.time.Instant;
 import java.util.Date;
@@ -29,7 +29,7 @@ public class JWTGenerator {
         Builder tokenBuilder = JWT.create()
                 .withIssuer("http://consulta-ya.com.mx")
                 .withClaim("jti", UUID.randomUUID().toString())
-                .withExpiresAt(Date.from(Instant.now().plusSeconds(60)))
+                .withExpiresAt(Date.from(Instant.now().plusSeconds(3600)))
                 .withIssuedAt(Date.from(Instant.now()));
 
         payload.entrySet().forEach(action -> tokenBuilder.withClaim(action.getKey(), action.getValue()));
@@ -47,7 +47,7 @@ public class JWTGenerator {
         payload.put("_id", id);
         payload.put("correoElectronico", email);
         String newJti = UUID.randomUUID().toString();
-        // 3600
+
         Date newExpirationDate = Date.from(Instant.now().plusSeconds(3600));
 
         Builder tokenBuilder = JWT.create()

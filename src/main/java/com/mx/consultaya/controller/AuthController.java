@@ -74,10 +74,8 @@ public class AuthController {
 	@PostMapping(path = "refreshToken")
 	public ResponseEntity<?> refreshToken(@RequestBody String id) throws CustomException, UnsupportedEncodingException, MessagingException {
 			try {
-				log.info("id"+id);
 				authService.refreshToken(id);
 		} catch (Exception e) {
-			log.info("error " + e.getMessage());
 			return new ResponseEntity<>(
 					"Ocurrio un error inesperado, intentalo más tarde ",
 					HttpStatus.INTERNAL_SERVER_ERROR);

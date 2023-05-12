@@ -54,7 +54,22 @@ public interface AuthService {
      */
     public void verifyMail(String jwt) throws CustomException;
     
+    /**
+     * Guarda el token generado para el usuario en BD
+     * @param user Usuario al cual se le guardará el token 
+     */
     public void saveToken(Usuario user);
 
+    /**
+     * Refresca el token del usuario, si esté ya expiró
+     * @param id identificador del usuario 
+     * @throws CustomException si ocurre algún error al descifrar los datos, al
+     *                         actualizar el token del usuario o al enviar el correo de
+     *                         verificación.
+     * @throws UnsupportedEncodingException si se produce un error de codificación
+     *                                      de caracteres
+     * @throws MessagingException si ocurre un error al enviar el correo
+     *                                      electrónico
+     */
     public void refreshToken(String id) throws CustomException, UnsupportedEncodingException, MessagingException;
 }

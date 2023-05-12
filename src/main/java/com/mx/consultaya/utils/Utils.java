@@ -15,7 +15,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.mx.consultaya.exception.CustomException;
-import com.mx.consultaya.model.JWTGenerator;
 import com.mx.consultaya.model.Usuario;
 
 import lombok.extern.slf4j.Slf4j;

@@ -14,10 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mx.consultaya.exception.CustomException;
 import com.mx.consultaya.model.EncryptedData;
-import com.mx.consultaya.model.JWTGenerator;
 import com.mx.consultaya.model.Usuario;
 import com.mx.consultaya.repository.AuthRepository;
 import com.mx.consultaya.service.AuthService;
+import com.mx.consultaya.utils.JWTGenerator;
 import com.mx.consultaya.utils.Utils;
 
 import jakarta.mail.MessagingException;
@@ -141,13 +141,11 @@ public class AuthServiceImp implements AuthService {
         Gson g = new Gson();
         JsonObject jwtString = g.fromJson(id, JsonObject.class);
         String idUser = jwtString.get("id").getAsString();
-        log.info("id_user {}",idUser);
-        
+
         Usuario user = authRepository.getUserById(idUser);
-        log.info("user{}", user);
         String newToken = new JWTGenerator().refreshJWT(idUser, user.getCorreoElectronico());
         Usuario userNewToken = authRepository.actToken(idUser, newToken);
-        log.info("newToken"+newToken);
+        
         sendMailVerifyAccount(userNewToken);
     }
 
@@ -155,6 +153,4 @@ public class AuthServiceImp implements AuthService {
     public void saveToken(Usuario user) {
         authRepository.saveToken(user);
     }
-    
-    
 }

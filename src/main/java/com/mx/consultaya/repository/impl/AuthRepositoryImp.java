@@ -117,7 +117,7 @@ public class AuthRepositoryImp implements AuthRepository {
         }
         Update update = new Update();
         update.set(CODIGO_VERIFICACION, token);
-
+        
        return mongoTemplate.findAndModify(
         query, update, new FindAndModifyOptions().returnNew(true), Usuario.class);
     }
