@@ -40,4 +40,26 @@ public interface AuthRepository {
      *                          la base de datos.
      */
     public void checkEmail(String email);
+
+    /**
+     * Actualiza el token del usuario, una vez que paso el limite de expiración
+     * @param id del usuario
+     * @param token el nuevo token del usuario
+     * @return el objeto usuario que representa al usuario con el token actualizado
+     */
+    public Usuario actToken(String id,String token);
+
+    /**
+     * Guarda el token del usuario
+     * @param user es el usuario al que se le guardará el token generado 
+     * @return usuario con el token guardado en BD
+     */
+    public Usuario saveToken(Usuario user);
+
+    /**
+     * Busca un usuario en BD mediante su id
+     * @param id el identificador del usuario
+     * @return Usuario registrado en BD
+     */
+    public Usuario getUserById(String id);
 }

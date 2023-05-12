@@ -53,12 +53,18 @@ public class Utils {
         }
     }
 
+    /**
+     * 
+     * 
+     * @param user Usuario al que se le verificará con el token
+     * @return cadena que representa el token
+     */
     public static String verifyToken(Usuario user) {
         try {
-
             log.info("usuario {}", user);
             JWTGenerator jwt = new JWTGenerator();
             Map<String, String> mapa = new HashMap<>();
+            mapa.put("_id", user.getId());
             mapa.put("nombre", user.getNombre());
             mapa.put("apellidos", user.getApellidos());
             mapa.put("correoElectronico", user.getCorreoElectronico());
@@ -66,6 +72,5 @@ public class Utils {
         } catch (Exception e) {
             return null;
         }
-
     }
 }

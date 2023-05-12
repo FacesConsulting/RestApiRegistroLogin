@@ -3,6 +3,7 @@ package com.mx.consultaya.repository.impl;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -68,7 +69,7 @@ public class AuthRepositoryImp implements AuthRepository {
         log.info("Creando usuario");
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
         user.setRol("Paciente");
-        user.setCodigoVerificacion(Utils.verifyToken(user));
+        user.setCodigoVerificacion(" ");
         user.setVerificado(false);
         user.setCreadoEn(new Date());
         return mongoTemplate.save(user);
@@ -96,5 +97,58 @@ public class AuthRepositoryImp implements AuthRepository {
         update.set("codigoVerificacion", " ");
 
         mongoTemplate.updateMulti(query, update, Usuario.class);
+    }
+    /**
+     * Actualiza el token del usuario,si ya expiroy lo guarda en BD
+     *
+     * @param id el identificador del usuario.
+     * @param token el nuevo token generado
+     * @return un Usuario con los datos actualizados
+     */
+    @Override
+    public Usuario actToken(String id,String token) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        if (!mongoTemplate.exists(query, Usuario.class)) {
+            throw new RequestException(HttpStatus.CONFLICT, "No existe.", EnumSeverity.ERROR,
+                    "El correo proporcionado no existe");
+        }
+        Update update = new Update();
+        update.set("codigoVerificacion", token);
+
+       return mongoTemplate.findAndModify(
+        query, update, new FindAndModifyOptions().returnNew(true), Usuario.class);
+    }
+
+    /**
+     * Guarda el token generado en BD
+     *
+     * @param user Usuario al que se le genero el token
+     * @return Usuario con datos actualizados
+     */
+    @Override
+    public  Usuario saveToken(Usuario user) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where(CORREO_ELECTRONICO).is(user.getCorreoElectronico().toLowerCase()));
+        if (!mongoTemplate.exists(query, Usuario.class)) {
+            throw new RequestException(HttpStatus.CONFLICT, "No existe.", EnumSeverity.ERROR,
+                    "El correo proporcionado no existe");
+        }
+        Update update = new Update();
+        update.set("codigoVerificacion", Utils.verifyToken(user));
+        return mongoTemplate.findAndModify(
+            query, update, new FindAndModifyOptions().returnNew(true), Usuario.class);
+    }
+    /**
+     * Busca un usuario en BD mediante su id
+     *
+     * @param id el identificador del usuario
+     * @return Usuario que se busco en BD
+     */
+    @Override
+    public Usuario getUserById(String id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(id));
+        return mongoTemplate.findOne(query, Usuario.class);
     }
 }

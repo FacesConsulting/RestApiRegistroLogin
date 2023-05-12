@@ -10,7 +10,13 @@ import jakarta.mail.MessagingException;
 
 public interface AuthService {
 
-    public Usuario signIn(String email, String password);
+    /**
+     * Da acceso al usuario para loggearse
+     * @param encryptedData los datos de acceso 
+     *        para loggearse
+     * @throws CustomException si se produce un error 
+     */
+    public void signIn(EncryptedData encryptedData) throws CustomException;
 
     /**
      * Registra un nuevo usuario en la base de datos a partir de los datos
@@ -47,4 +53,8 @@ public interface AuthService {
      *                         registrado en la base de datos.
      */
     public void verifyMail(String jwt) throws CustomException;
+    
+    public void saveToken(Usuario user);
+
+    public void refreshToken(String id) throws CustomException, UnsupportedEncodingException, MessagingException;
 }

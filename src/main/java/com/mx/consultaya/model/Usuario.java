@@ -60,5 +60,4 @@ public class Usuario {
 	private String codigoVerificacion;
 	private Date creadoEn;
 	private String rol;
-
 }

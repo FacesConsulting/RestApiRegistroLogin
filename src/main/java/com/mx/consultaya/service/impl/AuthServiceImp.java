@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @Service
 @Transactional
@@ -36,8 +36,34 @@ public class AuthServiceImp implements AuthService {
     private AuthRepository authRepository;
 
     @Override
-    public Usuario signIn(String email, String password) {
-        return authRepository.login(email, password);
+    public void signIn(EncryptedData encryptedData) throws CustomException {
+
+        String data = encryptedData.getData();
+        String key = encryptedData.getKey();
+        String iv = encryptedData.getIv();
+
+        String dataDecrypt = Utils.decryptData(data, key, iv);
+
+        Gson g = new Gson();
+
+        Usuario us = g.fromJson(dataDecrypt, Usuario.class);
+
+        Usuario userLogin = authRepository.login(us.getCorreoElectronico().toLowerCase(), us.getPassword());
+
+        if (userLogin == null) {
+            throw new CustomException("Usuario no existente", null);
+        }
+
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        final boolean isPasswordMatches = bcrypt.matches(us.getPassword(), userLogin.getPassword());
+
+        if (isPasswordMatches) { // correct password
+            if (Boolean.FALSE.equals(us.getVerificado())) {
+                throw new CustomException("Usuario no verificado", null);
+            }
+        } else {
+            throw new CustomException("Credenciales incorrectas", null);
+        }
     }
 
     @Override
@@ -56,7 +82,9 @@ public class AuthServiceImp implements AuthService {
         Usuario createdUser = authRepository.join(user);
 
         try {
-            sendMailVerifyAccount(createdUser);
+            Usuario us2 = authRepository.saveToken(createdUser);
+            sendMailVerifyAccount(us2);
+
         } catch (UnsupportedEncodingException | MessagingException e) {
 
             e.printStackTrace();
@@ -85,7 +113,8 @@ public class AuthServiceImp implements AuthService {
         String fullname = user.getNombre() + " " + user.getApellidos();
 
         content = content.replace("[[name]]", fullname);
-        String verifyURL = siteURL + "/verification?code=" + user.getCodigoVerificacion();
+
+        String verifyURL = siteURL + "/verification?code=" + user.getCodigoVerificacion() + "&id=" + user.getId();
 
         content = content.replace("[[URL]]", verifyURL);
 
@@ -106,4 +135,26 @@ public class AuthServiceImp implements AuthService {
         String email = decoder.getClaim("correoElectronico").asString();
         authRepository.checkEmail(email);
     }
+
+    @Override
+    public void refreshToken(String id) throws CustomException, UnsupportedEncodingException, MessagingException {
+        Gson g = new Gson();
+        JsonObject jwtString = g.fromJson(id, JsonObject.class);
+        String idUser = jwtString.get("id").getAsString();
+        log.info("id_user {}",idUser);
+        
+        Usuario user = authRepository.getUserById(idUser);
+        log.info("user{}", user);
+        String newToken = new JWTGenerator().refreshJWT(idUser, user.getCorreoElectronico());
+        Usuario userNewToken = authRepository.actToken(idUser, newToken);
+        log.info("newToken"+newToken);
+        sendMailVerifyAccount(userNewToken);
+    }
+
+    @Override
+    public void saveToken(Usuario user) {
+        authRepository.saveToken(user);
+    }
+    
+    
 }
