@@ -30,6 +30,8 @@ public class AuthRepositoryImp implements AuthRepository {
     private MongoTemplate mongoTemplate;
 
     private static final String CORREO_ELECTRONICO = "correoElectronico";
+    private static final String VERIFICADO= "verificado";
+    private static final String CODIGO_VERIFICACION = "codigoVerificacion";
 
     /**
      * Busca un usuario en la base de datos con el correo electrónico y contraseña
@@ -89,12 +91,12 @@ public class AuthRepositoryImp implements AuthRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where(CORREO_ELECTRONICO).is(email.toLowerCase()));
         if (!mongoTemplate.exists(query, Usuario.class)) {
-            throw new RequestException(HttpStatus.CONFLICT, "No existe.", EnumSeverity.ERROR,
+            throw new RequestException(HttpStatus.CONFLICT, "No existe", EnumSeverity.ERROR,
                     "El correo proporcionado no existe");
         }
         Update update = new Update();
-        update.set("verificado", true);
-        update.set("codigoVerificacion", " ");
+        update.set(VERIFICADO, true);
+        update.set(CODIGO_VERIFICACION, " ");
 
         mongoTemplate.updateMulti(query, update, Usuario.class);
     }
@@ -111,10 +113,10 @@ public class AuthRepositoryImp implements AuthRepository {
         query.addCriteria(Criteria.where("_id").is(id));
         if (!mongoTemplate.exists(query, Usuario.class)) {
             throw new RequestException(HttpStatus.CONFLICT, "No existe.", EnumSeverity.ERROR,
-                    "El correo proporcionado no existe");
+                    "El correo proporcionado para actualizar token no existe");
         }
         Update update = new Update();
-        update.set("codigoVerificacion", token);
+        update.set(CODIGO_VERIFICACION, token);
 
        return mongoTemplate.findAndModify(
         query, update, new FindAndModifyOptions().returnNew(true), Usuario.class);
@@ -135,7 +137,7 @@ public class AuthRepositoryImp implements AuthRepository {
                     "El correo proporcionado no existe");
         }
         Update update = new Update();
-        update.set("codigoVerificacion", Utils.verifyToken(user));
+        update.set(CODIGO_VERIFICACION, Utils.verifyToken(user));
         return mongoTemplate.findAndModify(
             query, update, new FindAndModifyOptions().returnNew(true), Usuario.class);
     }
