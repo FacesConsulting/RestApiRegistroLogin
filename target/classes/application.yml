@@ -1,11 +1,26 @@
-# Spring db properties
+ # Spring db properties
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      uri: mongodb://localhost/test
-  
+      uri: mongodb+srv://dylan:dylan@cluster0.mb8zbcw.mongodb.net/CONSULTA_YA?retryWrites=true&w=majority
+  mail:
+    host: smtp.gmail.com
+    port: 25
+    username: consultayaadmin@consulta-ya.com.mx
+    password: zzlqxcectxwagdqe
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+      
 # HTTP Server
 server:
   port: 8081
+  servlet:
+     contextPath: /login
+  
+    
+jwt:
+  secret=123456
